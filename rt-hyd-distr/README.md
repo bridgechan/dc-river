@@ -306,6 +306,13 @@ CREATE SOURCE CONNECTOR DBZ_TEST_TB_ALL WITH (
 
 
 ## PG连接器测试
+> **说明** : 测试使用postgres12,逻辑解码插件 pgoutput.
+### 配置文件添加下列配置
+```ini
+    wal_level = 'logical'
+    max_wal_senders = 1
+    max_replication_slots = 1
+```
 1. **SOURCE CONNECTOR**   
     ```sql_more=
     DROP CONNECTOR IF EXISTS DBZ_PGZ_ZJSL_RAIN;
