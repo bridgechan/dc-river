@@ -3,21 +3,17 @@ version: '2'
 
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.2.1
+    image: confluentinc/cp-zookeeper:7.1.1
     hostname: zookeeper
     container_name: zookeeper
-    user: root
     ports:
       - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    volumes:
-      - $PWD/zk/data:/var/lib/zookeeper/data
-      - $PWD/zk/logs:/var/lib/zookeeper/log
 
   broker:
-    image: confluentinc/cp-kafka:7.2.1
+    image: confluentinc/cp-kafka:7.1.1
     hostname: broker
     container_name: broker
     user: root
@@ -36,11 +32,9 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-    volumes:
-      - $PWD/kafka/data:/var/lib/kafka/data
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.2.1
+    image: confluentinc/cp-schema-registry:7.1.1
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
@@ -103,7 +97,7 @@ services:
         sleep infinity
 
   ksqldb-server:
-    image: confluentinc/ksqldb-server:0.27.2
+    image: confluentinc/ksqldb-server:0.26.0
     hostname: ksqldb-server
     container_name: ksqldb-server
     depends_on:
@@ -133,7 +127,7 @@ services:
       KSQL_CONNECT_PLUGIN_PATH: "/usr/share/kafka/plugins"
 
   ksqldb-cli:
-    image: confluentinc/ksqldb-cli:0.27.2
+    image: confluentinc/ksqldb-cli:0.26.0
     container_name: ksqldb-cli
     depends_on:
       - broker
@@ -153,13 +147,13 @@ services:
 
   rest-proxy:
     image: confluentinc/cp-kafka-rest:7.2.1
-    hostname: rest-proxy
-    container_name: rest-proxy
     depends_on:
       - broker
       - schema-registry
     ports:
       - 8082:8082
+    hostname: rest-proxy
+    container_name: rest-proxy
     environment:
       KAFKA_REST_HOST_NAME: rest-proxy
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:9092'
