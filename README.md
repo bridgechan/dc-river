@@ -1,6 +1,5 @@
-# dc-river
-
-# 环境准备
+# ksql实时流处理项目
+## 环境准备
 1. 安装docker
 2. 安装docker-compose
 3. 安装confluent-hub
@@ -17,13 +16,13 @@ confluent-hub install --component-dir confluent-hub-components --worker-configs 
     - 必选：zookeeper、broker、schema-registry、ksqldb-server、ksqldb-cli
     - 可选：kafka-connect、kafkacat、rest-proxy、kafka-manager
 
-# 部署流程
+## 部署流程
 1. 拉取相关镜像并运行容器
 ```
 docker-compose up -d
 ```
 2. 查看错误并处理
 
-# 开发实时流处理任务
+## 开发实时流处理任务
 1. 日志流接入kafka并在ksqldb中分析处理
 2. 实时数据流接入kafka并分发至不同目标端
