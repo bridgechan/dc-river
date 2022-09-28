@@ -132,7 +132,7 @@ EMIT CHANGES;
 ```sql_more=
 CREATE sink CONNECTOR `to_audit_sum311` WITH(
     "connector.class"= 'io.confluent.connect.jdbc.JdbcSinkConnector',
-    "connection.url" = 'jdbc:mysql://192.168.2.174:3307/test?user=kafka_pro&password=dcxx@1234',
+    "connection.url" = 'jdbc:mysql://192.168.2.174:3307/test?user=kafka_pro&password=******',
     "key.converter" = "io.confluent.connect.avro.AvroConverter",
     "key.converter.schema.registry.url" = 'http://schema-registry:8081',
     "value.converter" = 'io.confluent.connect.avro.AvroConverter',
