@@ -268,6 +268,41 @@ CREATE SINK CONNECTOR `sink_st_river_r` WITH(
         "pk.fields"= 'STCD,TM',
         "delete.enabled"='false');
     ```
+###  正则表达式匹配多个表
+```sql_more=
+DROP CONNECTOR IF EXISTS DBZ_TEST_TB_ALL;
+CREATE SOURCE CONNECTOR DBZ_TEST_TB_ALL WITH (   
+    "connector.class" = 'io.debezium.connector.mysql.MySqlConnector',   
+    "database.hostname" = 'ip地址',   
+    "database.port" = '3308',   
+    "database.user" = 'username',   
+    "database.password" = 'password',   
+    "database.allowPublicKeyRetrieval" = 'true',   
+    "key.converter"='io.confluent.connect.avro.AvroConverter',   
+    "key.converter.schema.registry.url"   = 'http://schema-registry:8081',   
+    "value.converter"='io.confluent.connect.avro.AvroConverter',   
+    "value.converter.schema.registry.url" = 'http://schema-registry:8081',   
+    "database.server.id"='678',   
+    "database.server.name" = 'test_all',   
+    "database.whitelist" = 'test',   
+    "database.history.kafka.bootstrap.servers"='broker:9092',   
+    "database.history.kafka.topic"='test_his',   
+    "table.include.list" = 'test\.test_tb.*',   
+    "include.schema.changes"='false',   
+    "decimal.handling.mode"='string',   
+    "time.precision.mode"='connect',   
+    "transforms"='unwrap',   
+    "transforms.unwrap.type"='io.debezium.transforms.ExtractNewRecordState',
+    "transforms.unwrap.drop.tombstones"='false'   
+);   
+```
+> **说明** : Debezium连接器的 table.include.list、table.exclude.list 参数支持正则表达式的方式来配置多个表。
+
+成功创建后会产生如下topic:
+- test_all.test.test_tb1
+- test_all.test.test_tb2 
+- test_all.test.test_tb3
+- test_his
 
 
 ## PG连接器测试
